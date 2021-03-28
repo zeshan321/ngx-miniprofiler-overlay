@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\projects",
+    "\\projects\\ngx-miniprofiler-overlay",
+    "\\projects\\ngx-miniprofiler-overlay\\src",
+    "\\projects\\ngx-miniprofiler-overlay\\src\\lib",
+    "\\projects\\ngx-miniprofiler-overlay\\src\\lib\\components",
+    "\\projects\\ngx-miniprofiler-overlay\\src\\lib\\components\\overlay",
+    "\\projects\\ngx-miniprofiler-overlay\\src\\lib\\services",
+    "\\projects\\ngx-miniprofiler-overlay\\src\\lib\\types",
+    "\\projects\\ngx-miniprofiler-overlay\\src\\lib\\types\\miniprofiler"
+  ],
+  "SelectedNode": "\\projects\\ngx-miniprofiler-overlay\\src\\lib\\services\\ngx-miniprofiler-overlay.service.ts",
+  "PreviewInSolutionExplorer": false
+}

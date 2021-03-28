@@ -1,0 +1,51 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "1a1e6461-78b2-4cfc-9b10-4440632e3f7d"
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ngx-miniprofiler-overlay": {
+      "projectType": "library",
+      "root": "projects/ngx-miniprofiler-overlay",
+      "sourceRoot": "projects/ngx-miniprofiler-overlay/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ngx-miniprofiler-overlay/tsconfig.lib.json",
+            "project": "projects/ngx-miniprofiler-overlay/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-miniprofiler-overlay/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-miniprofiler-overlay/src/test.ts",
+            "tsConfig": "projects/ngx-miniprofiler-overlay/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-miniprofiler-overlay/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-miniprofiler-overlay/tsconfig.lib.json",
+              "projects/ngx-miniprofiler-overlay/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-miniprofiler-overlay"
+}

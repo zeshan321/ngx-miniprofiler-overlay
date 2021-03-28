@@ -1,0 +1,16 @@
+<div class="overlay" [style.display]="isVisible ? 'block' : 'none'">
+  <div class="toolbar">
+    <input class="search" placeholder="Search.." type="text" [formControl]="search"/>
+  </div>
+
+  <div class="collapsible-parent" *ngFor="let item of data; index as i; trackBy: trackById">
+    <button type="button" class="collapsible" (click)="onExpand(item)" [class.active]="item.HasValue">
+      <p class="name">{{ item.Name }}</p>
+      <p class="duration" ><span class="{{ item.Colour }}">{{ item.DurationMilliseconds }}ms</span> | {{ item.Started | date:'h:mm:ss.SSS a' }}</p>
+    </button>
+
+    <div class="content" [style.display]="item.IsOpen ? 'block' : 'none'">
+      <iframe *ngIf="item.IsLoaded" [src]="item.Url"></iframe>
+    </div>
+  </div>
+</div>
