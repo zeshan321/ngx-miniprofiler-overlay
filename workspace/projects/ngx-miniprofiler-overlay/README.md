@@ -1,24 +1,73 @@
-# NgxMiniprofilerOverlay
+# ngx-miniprofiler-overlay [![NPM version](https://img.shields.io/npm/v/ngx-miniprofiler-overlay.svg?style=flat)](https://www.npmjs.com/package/ngx-miniprofiler-overlay)
+[MiniProfiler](https://miniprofiler.com/) overlay for Angular with high customizability.
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.6.
 
-## Code scaffolding
+## Demo
+![ngx-miniprofiler-overlay demo](https://i.imgur.com/9j7ZvhP.png)
 
-Run `ng generate component component-name --project ngx-miniprofiler-overlay` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-miniprofiler-overlay`.
-> Note: Don't forget to add `--project ngx-miniprofiler-overlay` or else it will be added to the default project in your `angular.json` file. 
+## Setup
+### Angular
+Include the `ngx-miniprofiler-overlay` component in your entry component or where you want to render the results.
+```javascript
+<ngx-miniprofiler-overlay></ngx-miniprofiler-overlay>
+```
+Add the `NgxMiniprofilerOverlayModule` to your module imports and add the `HTTP_INTERCEPTORS` provider, `NgxMiniprofilerOverlayInterceptor` in your providers.
+```javascript
+@NgModule({
+  imports: [
+    NgxMiniprofilerOverlayModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: NgxMiniprofilerOverlayInterceptor, multi: true }
+  ]
+})
+```
 
-## Build
+### .NET
+Add MiniProfiler to your `ConfigureServices` in `Startup.cs`
+```c#
+services.AddMiniProfiler(options =>
+{
+	options.ColorScheme = StackExchange.Profiling.ColorScheme.Dark;
+    options.EnableDebugMode = true;
+}).AddEntityFramework();
+```
 
-Run `ng build ngx-miniprofiler-overlay` to build the project. The build artifacts will be stored in the `dist/` directory.
+Add MiniProfiler to your `Configure` in `Startup.cs`
+```c#
+app.UseMiniProfiler();
+```
 
-## Publishing
+### Use
+By default the `ngx-miniprofiler-overlay` overlay can be triggered by hitting escape on the component where it is registered and will hit the default endpoint `/mini-profiler-resources`.
 
-After building your library with `ng build ngx-miniprofiler-overlay`, go to the dist folder `cd dist/ngx-miniprofiler-overlay` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ngx-miniprofiler-overlay` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Configuration
+To override the default configuration add `NgxMiniprofilerOverlayServiceConfig` to your providers.
+```javascript
+@NgModule({
+  imports: [
+    NgxMiniprofilerOverlayModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: NgxMiniprofilerOverlayInterceptor, multi: true },
+    {
+      provide: NgxMiniprofilerOverlayServiceConfig, useValue: {
+        // Allows you to change the endpoint `ngx-miniprofiler-overlay` hits
+        api: '/mini-profiler-resources',
+        // Allows you to override the key that triggers the overlay
+        overlayTrigger: (event: KeyboardEvent) => {
+          return event.key === 'Escape';
+        },
+        // Allows you to include/exclude profilering on spesific endpoints. Refer to the `matcher` package for more info
+        matcher: ['*'],
+        // Allows you to colour code duration times. If your `return false`, colour coding will be disabled
+        thresholds: {
+          good: (ms: number) => { return ms < 1000; },
+          okay: (ms: number) => { return ms < 3000; },
+          bad: (ms: number) => { return ms > 3000; }
+        }
+      }
+    }
+  ]
+})
+```
