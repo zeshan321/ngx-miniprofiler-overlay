@@ -15,7 +15,7 @@ export class NgxMiniprofilerOverlayService {
 
   constructor(private http: HttpClient, private config: NgxMiniprofilerOverlayServiceConfig) { }
 
-  handleIncomingIds(ids: string[]) {
+  handleIncomingIds(ids: string[]): void {
     for (const id of ids) {
       if (!this.cached.has(id)) {
         this.cached.add(id);

@@ -20,11 +20,16 @@ export class NgxMiniprofilerOverlayComponent implements OnInit, OnDestroy {
   responsesSubscription: Subscription | undefined;
   searchSubscription: Subscription | undefined;
 
-  constructor(private service: NgxMiniprofilerOverlayService, private sanitizer: DomSanitizer, private config: NgxMiniprofilerOverlayServiceConfig) { }
+  constructor(
+    private service: NgxMiniprofilerOverlayService,
+    private sanitizer: DomSanitizer,
+    private config: NgxMiniprofilerOverlayServiceConfig) { }
 
-  @HostListener('document:keyup.escape', ['$event'])
-  onOverlayTriggered(): void {
-    this.isVisible = !this.isVisible;
+  @HostListener('document:keyup', ['$event'])
+  onOverlayTriggered(event: KeyboardEvent): void {
+    if (this.config.overlayTrigger(event)) {
+      this.isVisible = !this.isVisible;
+    }
   }
 
   ngOnInit(): void {
@@ -33,7 +38,7 @@ export class NgxMiniprofilerOverlayComponent implements OnInit, OnDestroy {
 
   onExpand(item: ProfilerResponse): void {
     item.IsLoaded = true;
-    item.IsOpen = !item.IsOpen
+    item.IsOpen = !item.IsOpen;
   }
 
   trackById(index: number, item: ProfilerResponse): string {

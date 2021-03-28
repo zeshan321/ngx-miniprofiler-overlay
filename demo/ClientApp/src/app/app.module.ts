@@ -37,7 +37,10 @@ import { CommonModule } from '@angular/common';
     {
       provide: NgxMiniprofilerOverlayServiceConfig, useValue: {
         api: 'https://localhost:5001/mini-profiler-resources',
-        matcher: ['*', '!*/*.js', '!*/*.map', '!*/sockjs-node/*'],
+        overlayTrigger: (event: KeyboardEvent) => {
+          return event.key === 'Escape';
+        },
+        matcher: ['*'],
         thresholds: {
           good: (ms: number) => { return ms < 1000; },
           okay: (ms: number) => { return ms < 3000; },
