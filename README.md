@@ -28,7 +28,7 @@ Add MiniProfiler to your `ConfigureServices` in `Startup.cs`
 ```c#
 services.AddMiniProfiler(options =>
 {
-	options.ColorScheme = StackExchange.Profiling.ColorScheme.Dark;
+    options.ColorScheme = StackExchange.Profiling.ColorScheme.Dark;
     options.EnableDebugMode = true;
 }).AddEntityFramework();
 ```
@@ -71,3 +71,6 @@ To override the default configuration add `NgxMiniprofilerOverlayServiceConfig` 
   ]
 })
 ```
+
+## Security
+Since MiniProfiler displays SQL queries (if you have it enabled), it is recommended to have MiniProfiler disabled in production.
