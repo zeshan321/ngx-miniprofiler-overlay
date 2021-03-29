@@ -24,7 +24,13 @@ Add the `NgxMiniprofilerOverlayModule` to your module imports and add the `HTTP_
 ```
 
 ### .NET
-Add MiniProfiler to your `ConfigureServices` in `Startup.cs`
+Install [MiniProfiler](https://miniprofiler.com/) NuGet packages. For more information checkout [MiniProfiler](https://miniprofiler.com/)
+
+The demo project uses (built with .NET Core and EntityFramework):
+- MiniProfiler.AspNetCore.Mvc
+- MiniProfiler.EntityFrameworkCore
+
+Add MiniProfiler to your `ConfigureServices` in `Startup.cs`. Only add `AddEntityFramework()` if you'd like to see a breakdown of EntityFramework transactions.
 ```c#
 services.AddMiniProfiler(options =>
 {
@@ -58,9 +64,9 @@ To override the default configuration add `NgxMiniprofilerOverlayServiceConfig` 
         overlayTrigger: (event: KeyboardEvent) => {
           return event.key === 'Escape';
         },
-        // Allows you to include/exclude profilering on spesific endpoints. Refer to the `matcher` package for more info
+        // Allows you to include/exclude profiling on specific endpoints. Refer to the `matcher` package for more info
         matcher: ['*'],
-        // Allows you to colour code duration times. If your `return false`, colour coding will be disabled
+        // Allows you to colour code duration times. If you `return false`, colour coding will be disabled
         thresholds: {
           good: (ms: number) => { return ms < 1000; },
           okay: (ms: number) => { return ms < 3000; },
