@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isMatch } from 'matcher';
 import { Observable, Subject } from 'rxjs';
 import { ProfilerResponse } from '../types/profiler-response';
 import { NgxMiniprofilerOverlayServiceConfig } from './ngx-miniprofiler-overlay-config.service';
@@ -21,7 +20,15 @@ export class NgxMiniprofilerOverlayService {
         this.cached.add(id);
 
         this.http.get<ProfilerResponse>(`${this.config.api}/results?id=${id}`).subscribe(result => {
-          if (isMatch(result.Name, this.config.matcher)) {
+          let valid = true;
+          for (const item of this.config.matcher) {
+            if (!this.isMatch(item, result.Name)) {
+              valid = false;
+              break;
+            }
+          }
+
+          if (valid) {
             this.profilerResponses.next(result);
           }
         });
@@ -31,5 +38,14 @@ export class NgxMiniprofilerOverlayService {
 
   getProfilerResponses(): Observable<ProfilerResponse> {
     return this.profilerResponses$;
+  }
+
+  private isMatch(str: string, item: string): boolean {
+    if (str.startsWith('!')) {
+      str = str.substring(1);
+      return !new RegExp('^' + str.replace(/\*/g, '.*') + '$').test(item);
+    }
+
+    return new RegExp('^' + str.replace(/\*/g, '.*') + '$').test(item);
   }
 }

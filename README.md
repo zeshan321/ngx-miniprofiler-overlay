@@ -64,8 +64,10 @@ To override the default configuration add `NgxMiniprofilerOverlayServiceConfig` 
         overlayTrigger: (event: KeyboardEvent) => {
           return event.key === 'Escape';
         },
-        // Allows you to include/exclude profiling on specific endpoints. Refer to the `matcher` package for more info
-        matcher: ['*'],
+        // Allows you to include/exclude profiling information showing up on the UI
+        // For example, the matcher below will include everything but endpoints ending with .js, .map and .css
+        // Note: this will still fire requests to gather nessesscary information to stop requests to specific endpoints, update Miniprofiler options in backend
+        matcher: ['*', '!*.js', '!*.map', '!*.css'],
         // Allows you to colour code duration times. If you `return false`, colour coding will be disabled
         thresholds: {
           good: (ms: number) => { return ms < 1000; },

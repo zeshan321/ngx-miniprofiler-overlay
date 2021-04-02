@@ -3,7 +3,6 @@ import { HttpInterceptor, HttpEvent, HttpResponse, HttpRequest, HttpHandler, Htt
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { NgxMiniprofilerOverlayService } from '../services/ngx-miniprofiler-overlay.service';
-import { isMatch } from 'matcher';
 
 @Injectable()
 export class NgxMiniprofilerOverlayInterceptor implements HttpInterceptor {

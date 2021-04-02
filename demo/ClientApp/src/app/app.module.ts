@@ -40,7 +40,7 @@ import { CommonModule } from '@angular/common';
         overlayTrigger: (event: KeyboardEvent) => {
           return event.key === 'Escape';
         },
-        matcher: ['*'],
+        matcher: ['*', '!*.js', '!*.map', '!*.css'],
         thresholds: {
           good: (ms: number) => { return ms < 1000; },
           okay: (ms: number) => { return ms < 3000; },

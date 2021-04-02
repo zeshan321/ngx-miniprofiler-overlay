@@ -1,8 +1,11 @@
 {
   "name": "ngx-miniprofiler-overlay",
   "description": "MiniProfiler overlay for Angular with high customizability",
-  "version": "0.0.6",
-  "keywords": [ "miniprofiler", "angular" ],
+  "version": "0.0.8",
+  "keywords": [
+    "miniprofiler",
+    "angular"
+  ],
   "license": "MIT",
   "author": {
     "name": "Zeshan Aslam",
@@ -14,7 +17,6 @@
     "url": "https://github.com/zeshan321/ngx-miniprofiler-overlay"
   },
   "dependencies": {
-    "tslib": "^2.0.0",
-    "matcher": "^4.0.0"
+    "tslib": "^2.0.0"
   }
 }
