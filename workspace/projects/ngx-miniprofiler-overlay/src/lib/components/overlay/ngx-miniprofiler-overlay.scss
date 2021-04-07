@@ -72,9 +72,13 @@ iframe {
   border-color: transparent;
 }
 
+.warning {
+  color: red;
+  font-weight: bold;
+}
 // thesholds - override using ngdeep
 .profiler-good {
-    color: green;
+  color: green;
 }
 
 .profiler-okay {

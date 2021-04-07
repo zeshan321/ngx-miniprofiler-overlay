@@ -12,7 +12,9 @@ export interface ProfilerResponse {
   HasUserViewed: boolean;
   IsOpen: boolean;
   IsLoaded: boolean;
-  Url: SafeResourceUrl;
+  Url: string;
+  SafeUrl: SafeResourceUrl;
   HasValue: boolean;
   Colour: string | null;
+  Duplicates: number;
 }

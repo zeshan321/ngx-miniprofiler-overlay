@@ -14,7 +14,6 @@ import { NgxMiniprofilerOverlayServiceConfig } from '../../services/ngx-miniprof
   styleUrls: ['ngx-miniprofiler-overlay.scss']
 })
 export class NgxMiniprofilerOverlayComponent implements OnInit, OnDestroy {
-  isVisible = false;
   search = new FormControl('');
   data: ProfilerResponse[] = [];
   responsesSubscription: Subscription | undefined;
@@ -28,7 +27,7 @@ export class NgxMiniprofilerOverlayComponent implements OnInit, OnDestroy {
   @HostListener('document:keyup', ['$event'])
   onOverlayTriggered(event: KeyboardEvent): void {
     if (this.config.overlayTrigger(event)) {
-      this.isVisible = !this.isVisible;
+      this.config.isVisible = !this.config.isVisible;
     }
   }
 
@@ -45,11 +44,20 @@ export class NgxMiniprofilerOverlayComponent implements OnInit, OnDestroy {
     return item.Id;
   }
 
+  openNewTab(item: ProfilerResponse): void {
+    item.IsOpen = !item.IsOpen;
+    window.open(item.Url, '_blank');
+  }
+
   private subscribeLookups(): void {
     this.responsesSubscription = this.service.getProfilerResponses()
       .pipe(map(item => {
-        item.Url = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.config.api}/results?id=${item.Id}`);
+        item.Url = `${this.config.api}/results?id=${item.Id}`;
+        item.SafeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(item.Url);
         item.Colour = this.handleThresholds(item);
+        if (this.config.enableDuplicateDetection) {
+          item.Duplicates = this.hasDuplicates(item);
+        }
         return item;
       })).subscribe((result) => {
         this.addAndSort(result);
@@ -88,16 +96,40 @@ export class NgxMiniprofilerOverlayComponent implements OnInit, OnDestroy {
     this.data[i] = item;
   }
 
-  private handleThresholds(val: ProfilerResponse): string {
-    if (this.config.thresholds?.good(val.DurationMilliseconds)) {
+  private handleThresholds(item: ProfilerResponse): string {
+    if (this.config.thresholds?.good(item.DurationMilliseconds)) {
       return 'profiler-good';
-    } else if (this.config.thresholds?.okay(val.DurationMilliseconds)) {
+    } else if (this.config.thresholds?.okay(item.DurationMilliseconds)) {
       return 'profiler-okay';
-    } else if (this.config.thresholds?.bad(val.DurationMilliseconds)) {
+    } else if (this.config.thresholds?.bad(item.DurationMilliseconds)) {
       return 'profiler-bad';
     } else {
       return '';
     }
+  }
+
+  private hasDuplicates(item: ProfilerResponse): number {
+    let duplicates = 0;
+
+    const queries = new Set();
+    JSON.stringify(item, (_, nestedValue) => {
+      if (nestedValue) {
+        const query = nestedValue.CommandString;
+        const type = nestedValue.ExecuteType;
+
+        if (query && !this.config.duplicateDetectionExclude.includes(type)) {
+          if (!queries.has(query)) {
+            queries.add(query);
+          } else {
+            duplicates++;
+          }
+        }
+      }
+
+      return nestedValue;
+    });
+
+    return duplicates;
   }
 
   ngOnDestroy(): void {

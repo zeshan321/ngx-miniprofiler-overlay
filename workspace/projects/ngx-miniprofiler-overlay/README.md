@@ -73,7 +73,11 @@ To override the default configuration add `NgxMiniprofilerOverlayServiceConfig` 
           good: (ms: number) => { return ms < 1000; },
           okay: (ms: number) => { return ms < 3000; },
           bad: (ms: number) => { return ms > 3000; }
-        }
+        },
+        // If enabled, duplicate SQL queries detection will be enabled
+        enableDuplicateDetection: true,
+        // Used to exclude 'queries' found duplicate detection
+        duplicateDetectionExclude: ['Open', 'OpenAsync', 'Close', 'CloseAsync']
       }
     }
   ]

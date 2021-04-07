@@ -39,6 +39,7 @@ namespace demo.Controllers
             });
             await bloggingContext.SaveChangesAsync();
             await bloggingContext.Blogs.ToListAsync();
+            await bloggingContext.Blogs.ToListAsync();
 
             return getData().ToArray();
         }

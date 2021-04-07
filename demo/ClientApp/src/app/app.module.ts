@@ -45,7 +45,9 @@ import { CommonModule } from '@angular/common';
           good: (ms: number) => { return ms < 1000; },
           okay: (ms: number) => { return ms < 3000; },
           bad: (ms: number) => { return ms > 3000; }
-        }
+        },
+        enableDuplicateDetection: true,
+        duplicateDetectionExclude: ['Open', 'OpenAsync', 'Close', 'CloseAsync']
       }
     }
   ],
