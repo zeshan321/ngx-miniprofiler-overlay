@@ -1,16 +1,36 @@
 <div class="overlay" [style.display]="config.isVisible ? 'block' : 'none'">
   <div class="toolbar">
-    <input class="search" placeholder="Search.." type="text" [formControl]="search"/>
+    <input class="search" placeholder="Search..." type="text" [formControl]="search"/>
   </div>
 
-  <div class="collapsible-parent" *ngFor="let item of data; index as i; trackBy: trackById">
-    <button type="button" class="collapsible" (click)="onExpand(item)" [class.active]="item.HasValue">
-      <p class="name"><span *ngIf="item.Duplicates > 0" class="warning" title="{{ item.Duplicates }} duplicate(s) detected">! </span>{{ item.Name }}</p>
-      <p class="duration" ><span class="{{ item.Colour }}">{{ item.DurationMilliseconds }}ms</span> | {{ item.Started | date:'h:mm:ss.SSS a' }} <span (click)="openNewTab(item)">+</span></p>
-    </button>
-
-    <div class="content" [style.display]="item.IsOpen ? 'block' : 'none'">
-      <iframe *ngIf="item.IsLoaded" [src]="item.SafeUrl" frame></iframe>
-    </div>
-  </div>
+  <table class="collapsible-parent clickable">
+    <ng-container *ngFor="let item of data; index as i; trackBy: trackById">
+        <tr (click)="onExpand(item)" [class.active]="item.HasValue" class="collapsible-item">
+          <td class="heading" title="Request name">
+            {{ item.Name }}
+          </td>
+          <td class="info" title="Number of calls that hit the same endpoint">
+            {{ item.NumberOfSimilar }}
+          </td>
+          <td *ngIf="config.enableDuplicateDetection" class="info" title="Number of duplicate SQL calls" [class.profiler-bad]="item.Duplicates > 0">
+            {{ item.Duplicates }}
+          </td>
+          <td class="info" title="SQL duration and number of SQL calls">
+            <span class="{{ item.SqlColour }}">{{ item.SqlDurationMilliseconds }}ms</span> ({{ item.SqlCount }})
+          </td>
+          <td class="info" title="Total Duration">
+            <span class="{{ item.Colour }}">{{ item.DurationMilliseconds }}ms</span>
+          </td>
+          <td class="info" title="Request start">
+            {{ item.Started | date:'h:mm:ss.SSS a' }}
+          </td>
+          <td class="info clickable hide-border" (click)="openNewTab(item)" title="Open in new tab"><b>+</b></td>
+        </tr>
+        <tr>
+  	      <td class="content hide-border frame" [style.display]="item.IsOpen ? 'table-cell' : 'none'" [attr.colspan]="colspan">
+            <iframe *ngIf="item.IsLoaded" [src]="item.SafeUrl" frame></iframe>
+          </td>
+        </tr>
+    </ng-container>
+  </table>
 </div>

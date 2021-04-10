@@ -16,5 +16,9 @@ export interface ProfilerResponse {
   SafeUrl: SafeResourceUrl;
   HasValue: boolean;
   Colour: string | null;
+  SqlColour: string | null;
   Duplicates: number;
+  SqlDurationMilliseconds: number;
+  SqlCount: number;
+  NumberOfSimilar: number;
 }

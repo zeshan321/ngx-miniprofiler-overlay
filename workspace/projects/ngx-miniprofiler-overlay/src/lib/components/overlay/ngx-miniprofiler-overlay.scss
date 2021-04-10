@@ -12,40 +12,46 @@
   overflow: auto;
 }
 
-
 // collapsible
-.collapsible-parent {
-    display: grid;
+.clickable {
+  cursor: pointer;
 }
 
-.collapsible {
+.collapsible-parent {
+  width: 100%;
   background-color: #272C34;
   color: white;
-  cursor: pointer;
-  padding: 0px 18px 0px 18px;
+}
+
+td, th {
+  border-right: 1px solid white;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.hide-border {
+  border-right: 0px;
+}
+
+.info {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.frame {
   width: 100%;
+  height: 500px;
   border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
 }
 
-.collapsible p {
-  margin-bottom: 0px;
-}
-
-.active, .collapsible:hover {
+.active, .collapsible-item:hover {
   background-color: #555;
 }
 
 .content {
   overflow: hidden;
   background-color: #212121;
-}
-
-.collapsible .name {
-  float: left;
-  white-space: pre-line;
 }
 
 .duration {
@@ -72,10 +78,23 @@ iframe {
   border-color: transparent;
 }
 
+// extras
 .warning {
   color: red;
   font-weight: bold;
 }
+
+.badge {
+  background-color: #222;
+  color: #fff;
+  display: inline-block;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
 // thesholds - override using ngdeep
 .profiler-good {
   color: green;

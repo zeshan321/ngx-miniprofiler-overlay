@@ -16,6 +16,10 @@ export class FetchDataComponent implements OnInit {
         this.forecasts = result;
       }, error => console.error(error));
 
+      this.http.get<WeatherForecast[]>(this.baseUrl + 'weatherforecast').subscribe(result => {
+        this.forecasts = result;
+      }, error => console.error(error));
+
       this.http.get<any>('https://jsonplaceholder.typicode.com/todos/1').subscribe(result => {
         console.log(result);
       }, error => console.error(error));

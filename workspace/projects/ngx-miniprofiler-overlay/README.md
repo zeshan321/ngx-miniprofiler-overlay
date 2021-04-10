@@ -3,7 +3,7 @@
 
 
 ## Demo
-![ngx-miniprofiler-overlay demo](https://i.imgur.com/9j7ZvhP.png)
+![ngx-miniprofiler-overlay demo](https://i.imgur.com/o0tVFrI.png)
 
 ## Setup
 ### Angular

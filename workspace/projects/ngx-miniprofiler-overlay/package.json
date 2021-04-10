@@ -1,7 +1,7 @@
 {
   "name": "ngx-miniprofiler-overlay",
   "description": "MiniProfiler overlay for Angular with high customizability",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "keywords": [
     "miniprofiler",
     "angular"
